@@ -1,4 +1,4 @@
-package co.com.cesardiaz.misiontic.mytask;
+package co.com.cesardiaz.misiontic.mytask.view.dto;
 
 public class TaskItem {
     private String description;
