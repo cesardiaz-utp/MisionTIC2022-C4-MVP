@@ -21,6 +21,7 @@ import co.com.cesardiaz.misiontic.mytask.view.dto.TaskState;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     private List<TaskItem> data;
+    private OnItemClickListener listener;
 
     public TaskAdapter() {
         data = new ArrayList<>();
@@ -38,6 +39,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         notifyItemInserted(data.size() - 1);
     }
 
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,6 +55,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TaskItem item = data.get(position);
+
+        if (listener != null) {
+            holder.itemView.setOnClickListener(v -> listener.onClick(item));
+        }
 
         holder.tvDescription.setText(item.getDescription());
         holder.tvDate.setText(item.getDate());
@@ -65,6 +74,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return data == null ? 0 : data.size();
     }
 
+    public void updateTask(TaskItem task) {
+        for (int i = 0; i < data.size(); i++) {
+            TaskItem item = data.get(i);
+            if (item.getDescription().equals(task.getDescription())
+                    && item.getDate().equals(task.getDate())) {
+                item.setState(task.getState());
+                notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
     protected class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivIcon;
         private final TextView tvDescription;
@@ -77,5 +98,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             tvDescription = itemView.findViewById(R.id.tv_description);
             tvDate = itemView.findViewById(R.id.tv_date);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onClick(TaskItem item);
     }
 }

@@ -11,6 +11,8 @@ public interface MainMVP {
         List<TaskItem> getTasks();
 
         void saveTask(TaskItem task);
+
+        void updateTask(TaskItem item);
     }
 
     interface Presenter {
@@ -18,6 +20,7 @@ public interface MainMVP {
 
         void addNewTask();
 
+        void taskItemClicked(TaskItem item);
     }
 
     interface View {
@@ -27,5 +30,7 @@ public interface MainMVP {
         String getTaskDescription();
 
         void addTaskToList(TaskItem task);
+
+        void updateTask(TaskItem task);
     }
 }
