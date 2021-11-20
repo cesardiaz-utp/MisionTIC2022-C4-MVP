@@ -1,5 +1,6 @@
 package co.com.cesardiaz.misiontic.mytask.view.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.cesardiaz.misiontic.mytask.R;
+import co.com.cesardiaz.misiontic.mytask.presenter.MainPresenter;
 import co.com.cesardiaz.misiontic.mytask.view.dto.TaskItem;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
@@ -23,11 +25,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
     public void setData(List<TaskItem> data) {
+        Log.i(TaskAdapter.class.getSimpleName(), "set data");
         this.data = data;
         notifyDataSetChanged();
     }
 
     public void addItem(TaskItem item) {
+        Log.i(TaskAdapter.class.getSimpleName(), "Add new item");
         data.add(item);
         notifyItemInserted(data.size() - 1);
     }
