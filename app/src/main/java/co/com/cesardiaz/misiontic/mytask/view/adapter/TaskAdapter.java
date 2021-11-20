@@ -22,6 +22,7 @@ import co.com.cesardiaz.misiontic.mytask.view.dto.TaskState;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     private List<TaskItem> data;
     private OnItemClickListener listener;
+    private OnItemClickListener longListener;
 
     public TaskAdapter() {
         data = new ArrayList<>();
@@ -39,8 +40,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         notifyItemInserted(data.size() - 1);
     }
 
-    public void setListener(OnItemClickListener listener) {
+    public void setClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setLongClickListener(OnItemClickListener listener) {
+        this.longListener = listener;
     }
 
     @NonNull
@@ -58,6 +63,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
         if (listener != null) {
             holder.itemView.setOnClickListener(v -> listener.onClick(item));
+        }
+
+        if (longListener != null) {
+            holder.itemView.setOnLongClickListener(v -> {
+                longListener.onClick(item);
+                return false;
+            });
         }
 
         holder.tvDescription.setText(item.getDescription());
@@ -79,6 +91,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         TaskItem item = data.get(i);
         item.setState(task.getState());
         notifyItemChanged(i);
+    }
+
+    public void removeTask(TaskItem task) {
+        int i = data.indexOf(task);
+        data.remove(i);
+        notifyItemRemoved(i);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

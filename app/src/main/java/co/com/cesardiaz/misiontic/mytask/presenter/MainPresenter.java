@@ -13,10 +13,10 @@ import co.com.cesardiaz.misiontic.mytask.view.dto.TaskState;
 
 public class MainPresenter implements MainMVP.Presenter {
 
-    private MainMVP.View view;
-    private MainMVP.Model model;
+    private final MainMVP.View view;
+    private final MainMVP.Model model;
 
-    public MainPresenter(MainMVP.View view){
+    public MainPresenter(MainMVP.View view) {
         this.view = view;
         this.model = new MainInteractor();
     }
@@ -40,10 +40,31 @@ public class MainPresenter implements MainMVP.Presenter {
     }
 
     @Override
-    public void taskItemClicked(TaskItem item) {
-        item.setState(TaskState.DONE);
+    public void taskItemClicked(TaskItem task) {
+        String message = task.getState() == TaskState.PENDING
+                ? "Would you like to mark as DONE this task?"
+                : "Would you like to mark as PENDING this task?";
+        view.showConfirmDialog(message, task);
+    }
 
-        model.updateTask(item);
-        view.updateTask(item);
+    @Override
+    public void updateTask(TaskItem task) {
+        task.setState(task.getState() == TaskState.PENDING ? TaskState.DONE : TaskState.PENDING);
+
+        model.updateTask(task);
+        view.updateTask(task);
+    }
+
+    @Override
+    public void taskItemLongClicked(TaskItem task) {
+        if (task.getState() == TaskState.DONE) {
+            view.showDeleteDialog("Would you like to REMOVE this task?", task);
+        }
+    }
+
+    @Override
+    public void deleteTask(TaskItem task) {
+        model.deleteTask(task);
+        view.deleteTask(task);
     }
 }

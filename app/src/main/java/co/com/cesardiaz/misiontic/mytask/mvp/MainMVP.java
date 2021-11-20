@@ -13,6 +13,8 @@ public interface MainMVP {
         void saveTask(TaskItem task);
 
         void updateTask(TaskItem item);
+
+        void deleteTask(TaskItem task);
     }
 
     interface Presenter {
@@ -21,6 +23,12 @@ public interface MainMVP {
         void addNewTask();
 
         void taskItemClicked(TaskItem item);
+
+        void updateTask(TaskItem task);
+
+        void taskItemLongClicked(TaskItem task);
+
+        void deleteTask(TaskItem task);
     }
 
     interface View {
@@ -32,5 +40,11 @@ public interface MainMVP {
         void addTaskToList(TaskItem task);
 
         void updateTask(TaskItem task);
+
+        void showConfirmDialog(String message, TaskItem task);
+
+        void showDeleteDialog(String message, TaskItem task);
+
+        void deleteTask(TaskItem task);
     }
 }
