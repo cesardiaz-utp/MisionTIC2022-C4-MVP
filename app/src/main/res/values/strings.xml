@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MyTask</string>
+    <string name="enter_task_description">Enter task description</string>
+</resources>
